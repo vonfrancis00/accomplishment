@@ -1,5 +1,6 @@
 import { Plus } from 'lucide-react'
 import FormField from './FormField.jsx'
+import AccomplishmentEditor from './AccomplishmentEditor.jsx'
 
 export default function ReportEntryEditor({
   entry,
@@ -67,15 +68,13 @@ export default function ReportEntryEditor({
           </p>
           {entry.items.map((item, itemIndex) => (
             <div key={itemIndex} className="accomplishment-row flex items-start gap-2">
-              <textarea
-                rows={2}
-                aria-label={`Accomplishment ${itemIndex + 1} for entry ${index + 1}`}
+              <AccomplishmentEditor
+                label={`Accomplishment ${itemIndex + 1} for entry ${index + 1}`}
                 value={item}
-                onChange={event =>
-                  updateItem(entry.id, itemIndex, event.target.value)
+                onChange={value =>
+                  updateItem(entry.id, itemIndex, value)
                 }
                 placeholder={`Accomplishment ${itemIndex + 1}`}
-                className="min-h-[84px] min-w-0 flex-1 resize-y w-full rounded-[7px] border border-[#d7dfe8] bg-[#fcfdfe] px-3 py-[11px] text-[13px] leading-normal text-[#29394e] outline-none transition-[border-color,box-shadow] duration-180 focus:border-navy-500 focus:shadow-[0_0_0_3px_#122a4a18]"
               />
             </div>
           ))}

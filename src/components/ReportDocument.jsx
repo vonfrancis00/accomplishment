@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { formatReportDate } from '../utils/reportUtils.js'
+import { accomplishmentRuns, accomplishmentText } from '../utils/accomplishmentText.js'
 
 // The fixed contact footer is embedded in every report.
 const reportDefaults = {
@@ -65,13 +66,15 @@ function ReportContent({ profile, entries }) {
                 {entry.kind === 'work' ? (
                   <ul className="m-0 list-disc pl-[19px]">
                     {entry.items
-                      .filter(item => item.trim())
+                      .filter(item => accomplishmentText(item).trim())
                       .map((item, index) => (
                         <li
                           key={index}
-                          className="mb-px pl-px leading-[1.23] print:break-inside-avoid"
+                          className="mb-px whitespace-pre-wrap pl-px leading-[1.23] print:break-inside-avoid"
                         >
-                          {item}
+                          {accomplishmentRuns(item).map((run, runIndex) => (
+                            <span key={runIndex} style={{ fontWeight: run.bold ? 'bold' : 'normal', fontStyle: run.italic ? 'italic' : 'normal' }}>{run.text}</span>
+                          ))}
                         </li>
                       ))}
                   </ul>
@@ -191,7 +194,26 @@ export default function ReportDocument({ profile, entries }) {
 
           // An exceptionally long entry can span pages instead of extending a sheet.
           let cell = row.cells[1]
-          const words = cell.textContent.trim().split(/\s+/)
+          const originalCell = cell.cloneNode(true)
+          const words = [...originalCell.textContent.matchAll(/\S+\s*/g)]
+          // Clone a text range so bold/italic spans survive page splits.
+          const fillCell = (start, count) => {
+            const startOffset = words[start].index
+            const endOffset = words[start + count - 1].index + words[start + count - 1][0].length
+            const fragment = originalCell.cloneNode(true)
+            const walker = document.createTreeWalker(fragment, NodeFilter.SHOW_TEXT)
+            let position = 0
+            while (walker.nextNode()) {
+              const node = walker.currentNode
+              const text = node.textContent
+              node.textContent = text.slice(
+                Math.max(0, startOffset - position),
+                Math.max(0, Math.min(text.length, endOffset - position)),
+              )
+              position += text.length
+            }
+            cell.replaceChildren(...fragment.childNodes)
+          }
           let offset = 0
           while (offset < words.length) {
             let low = 1
@@ -199,7 +221,7 @@ export default function ReportDocument({ profile, entries }) {
             let fit = 0
             while (low <= high) {
               const count = Math.floor((low + high) / 2)
-              cell.textContent = words.slice(offset, offset + count).join(' ')
+              fillCell(offset, count)
               if (overflows()) high = count - 1
               else {
                 fit = count
@@ -207,7 +229,7 @@ export default function ReportDocument({ profile, entries }) {
               }
             }
             const count = Math.max(1, fit)
-            cell.textContent = words.slice(offset, offset + count).join(' ')
+            fillCell(offset, count)
             offset += count
             if (offset < words.length) {
               newPage()

@@ -20,6 +20,7 @@ import ReportFormPage from './pages/ReportFormPage.jsx'
 import ReportPreviewPage from './pages/ReportPreviewPage.jsx'
 import { createSampleEntries, entriesForPeriod, getReportingPeriod } from './utils/reportUtils.js'
 import { exportReportPdf } from './utils/exportPdf.js'
+import { accomplishmentText } from './utils/accomplishmentText.js'
 
 const initialProfile = {
   name: 'La Victoria, Von Francis A.',
@@ -150,7 +151,7 @@ export default function App() {
     (total, entry) =>
       total +
       (entry.kind === 'work'
-        ? entry.items.filter(item => item.trim()).length
+        ? entry.items.filter(item => accomplishmentText(item).trim()).length
         : 0),
     0,
   )

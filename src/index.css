@@ -721,3 +721,8 @@ button:disabled {
   .ipcr-entry-heading { @apply flex-wrap; }
   .ipcr-workspace .ipcr-hero { @apply px-6 py-7; }
 }
+ .accomplishment-editor:empty::before {
+  content: attr(data-placeholder);
+  color: #94a3b8;
+  pointer-events: none;
+}

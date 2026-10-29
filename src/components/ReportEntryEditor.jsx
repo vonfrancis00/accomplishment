@@ -55,7 +55,7 @@ export default function ReportEntryEditor({
 
       {expanded && <div id={`entry-panel-${entry.id}`} role="region" aria-labelledby={`entry-toggle-${entry.id}`} className="mt-4 border-t border-slate-200 pt-4">
 
-      <div className="grid grid-cols-2 gap-[18px]">
+      <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2">
         <FormField label="Date" type="date" value={entry.date} readOnly />
         <label className="block">
           <span className="mb-[7px] block text-[11px] font-semibold text-[#526174]">

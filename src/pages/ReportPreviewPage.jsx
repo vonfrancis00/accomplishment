@@ -4,7 +4,7 @@ import ReportDocument from '../components/ReportDocument.jsx'
 export default function ReportPreviewPage({ profile, entries }) {
   return (
     <section className="min-w-0">
-      <div className="print:hidden mb-5 flex items-start justify-between gap-2 sm:items-center">
+      <div className="print:hidden mb-5 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
         <div>
           <h2 className="text-base font-bold text-[#122a4a]">
             Your Finished Document

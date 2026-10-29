@@ -1,4 +1,4 @@
-﻿@import 'tailwindcss';
+@import 'tailwindcss';
 
 @theme {
   --color-navy-50: #eff4fb;
@@ -771,3 +771,12 @@ button:disabled {
   .dv-accounts input { padding: 10px 6px; }
   .accomplishment-row button, .accomplishment-row [role='group'] button { min-height: 44px; }
 }
+
+/* Output headings can be renamed directly and share the Output field value. */
+.ipcr-entry-heading h3 { flex: 1; }
+.ipcr-editor .ipcr-entry-heading input.ipcr-output-title {
+  width: 100%; min-width: 0; padding: 9px 12px;
+  font-size: 17px; font-weight: 600; color: #19375e;
+  background: #f8fafc; border: 1px solid #dce4ee; border-radius: 8px;
+}
+.ipcr-output-title::placeholder { color: #64748b; opacity: 1; }

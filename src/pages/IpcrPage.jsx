@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { Plus, Trash2, Eye, ArrowLeft, Download, Printer, ArrowRight, Check, UserRound, Target, ShieldCheck, Sparkles, Activity } from 'lucide-react'
 import FormField from '../components/FormField.jsx'
 import IpcrDocument from '../components/IpcrDocument.jsx'
@@ -184,7 +184,17 @@ export default function IpcrPage({ data, setData }) {
             {data.outputs.map((row, index) => (
               <div className="ipcr-entry" key={row.id}>
                 <div className="ipcr-entry-heading">
-                  <h3><span className="ipcr-output-number">{String(index + 1).padStart(2, '0')}</span> {row.output || `Untitled output`}</h3>
+                  <h3>
+                    <span className="ipcr-output-number">{String(index + 1).padStart(2, '0')}</span>
+                    <input
+                      className="ipcr-output-title"
+                      aria-label={`Output ${index + 1} title`}
+                      placeholder="Untitled output"
+                      maxLength={100}
+                      value={row.output}
+                      onChange={event => updateRow(row.id, 'output', event.target.value)}
+                    />
+                  </h3>
                   <button
                     className="button secondary"
                     disabled={data.outputs.length === 1}

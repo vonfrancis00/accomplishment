@@ -15,6 +15,7 @@ import {
 import AppHeader from './components/AppHeader.jsx'
 import LandingPage from './pages/LandingPage.jsx'
 import IpcrPage from './pages/IpcrPage.jsx'
+import DisbursementPage, { createDisbursement } from './pages/DisbursementPage.jsx'
 import { createIpcr } from './utils/ipcrUtils.js'
 import ReportFormPage from './pages/ReportFormPage.jsx'
 import ReportPreviewPage from './pages/ReportPreviewPage.jsx'
@@ -39,6 +40,7 @@ const initialProfile = {
 export default function App() {
   const [documentType, setDocumentType] = useState('home')
   const [ipcr, setIpcr] = useState(createIpcr)
+  const [disbursement, setDisbursement] = useState(createDisbursement)
   const [profile, setProfile] = useState(initialProfile)
   const [entries, setEntries] = useState(() =>
     entriesForPeriod(
@@ -168,6 +170,7 @@ export default function App() {
     <div className="app-shell">
       {documentType === 'home' ? <LandingPage onNavigate={setDocumentType} /> : <AppHeader activePage={documentType} onNavigate={setDocumentType} />}
       {documentType === 'ipcr' && <IpcrPage data={ipcr} setData={setIpcr} />}
+      {documentType === 'disbursement' && <DisbursementPage data={disbursement} setData={setDisbursement} />}
       <main className="workspace" hidden={documentType !== 'accomplishment'}>
         <nav aria-label="Report progress" className="stepper print:hidden">
           <div className="progress-caption">

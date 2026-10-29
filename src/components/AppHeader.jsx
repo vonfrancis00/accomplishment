@@ -17,6 +17,7 @@ export default function AppHeader({ activePage, onNavigate }) {
         <nav className="document-nav" aria-label="Document type">
           <button aria-current={activePage === 'accomplishment' ? 'page' : undefined} onClick={() => onNavigate('accomplishment')}><FileText size={15} /> Accomplishment</button>
           <button aria-current={activePage === 'ipcr' ? 'page' : undefined} onClick={() => onNavigate('ipcr')}>IPCR</button>
+        <button aria-current={activePage === 'disbursement' ? 'page' : undefined} onClick={() => onNavigate('disbursement')}>Disbursement</button>
         </nav>
         <div className="header-right">
           <img

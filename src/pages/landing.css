@@ -6,6 +6,21 @@
 @media(prefers-reduced-motion:reduce){.landing-workspace-card{transition:none}.landing-workspace-card:hover{transform:none}}
 @media print{.landing{display:none}}
 
+/* Fit all three workspaces across the desktop landing page. */
+@media (min-width:901px) {
+  .landing-workspace-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+  .landing-workspace-card { min-width:0; padding:36px 20px 18px; display:flex; flex-direction:column; }
+  .landing-card-main { display:grid; grid-template-columns:60px minmax(0,1fr) 34px; gap:14px; padding:0 0 22px; flex:1; }
+  .landing-card-icon { width:60px; height:68px; border-radius:22px; }
+  .landing-card-icon svg { width:36px; height:36px; }
+  .landing-card-main h3 { font-size:22px; }
+  .landing-card-main p { font-size:14px; }
+  .landing-card-arrow { width:34px; height:38px; border-radius:10px; }
+  .landing-card-arrow svg { width:23px; }
+  .landing-card-details { flex-wrap:wrap; justify-content:flex-start; gap:10px 14px; font-size:12px; }
+  .landing-card-details i { width:26px; height:26px; flex-shrink:0; }
+}
+
 @keyframes landing-reveal {
   from { opacity: 0; translate: 0 18px; }
   to { opacity: 1; translate: 0 0; }

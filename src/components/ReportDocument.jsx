@@ -75,6 +75,17 @@ function ReportContent({ profile, entries }) {
                           {accomplishmentRuns(item).map((run, runIndex) => (
                             <span key={runIndex} style={{ fontWeight: run.bold ? 'bold' : 'normal', fontStyle: run.italic ? 'italic' : 'normal' }}>{run.text}</span>
                           ))}
+                          {(item?.subItems || []).some(subItem => accomplishmentText(subItem).trim()) && (
+                            <ul className="m-0 list-[circle] pl-[24px]">
+                              {item.subItems.filter(subItem => accomplishmentText(subItem).trim()).map((subItem, subIndex) => (
+                                <li key={subIndex} className="mb-px pl-px">
+                                  {accomplishmentRuns(subItem).map((run, runIndex) => (
+                                    <span key={runIndex} style={{ fontWeight: run.bold ? 'bold' : 'normal', fontStyle: run.italic ? 'italic' : 'normal' }}>{run.text}</span>
+                                  ))}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                         </li>
                       ))}
                   </ul>

@@ -18,7 +18,7 @@ export default function ReportEntryEditor({
           Entry {String(index + 1).padStart(2, '0')}{' '}
           <span className="rounded bg-navy-50 px-[7px] py-1 text-[10px] font-medium tracking-normal text-[#7c8998] normal-case">
             {entry.kind === 'work'
-              ? 'Workday'
+              ? new Date(`${entry.date}T00:00:00`).toLocaleDateString('en-US', { weekday: 'long' })
               : entry.kind === 'weekend'
                 ? 'Weekend'
                 : 'Special Day'}

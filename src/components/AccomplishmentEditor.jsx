@@ -1,8 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Bold, Italic } from 'lucide-react'
+import { Bold, Italic, Plus, X } from 'lucide-react'
 import { accomplishmentRuns } from '../utils/accomplishmentText.js'
 
-export default function AccomplishmentEditor({ value, onChange, label, placeholder }) {
+export default function AccomplishmentEditor({ value, onChange, label, placeholder, isSubBullet = false }) {
   const editorRef = useRef(null)
   const savedRange = useRef(null)
   const renderedValue = useRef(null)
@@ -56,7 +56,7 @@ export default function AccomplishmentEditor({ value, onChange, label, placehold
       node.childNodes.forEach(child => visit(child, nextBold, nextItalic))
     }
     editorRef.current.childNodes.forEach(node => visit(node))
-    const nextValue = { runs }
+    const nextValue = { runs, subItems: value?.subItems || [] }
     renderedValue.current = nextValue
     onChange(nextValue)
     rememberSelection()
@@ -76,6 +76,7 @@ export default function AccomplishmentEditor({ value, onChange, label, placehold
   }
 
   return (
+    <div className="min-w-0 flex-1 space-y-2">
     <div className="min-w-0 flex-1 overflow-hidden rounded-[7px] border border-[#d7dfe8] bg-[#fcfdfe] focus-within:border-navy-500 focus-within:shadow-[0_0_0_3px_#122a4a18]">
       <div role="group" aria-label={`Formatting for ${label}`} className="flex gap-1 border-b border-[#d7dfe8] bg-slate-50 px-2 py-1">
         {[['bold', Bold, 'Bold', 'B'], ['italic', Italic, 'Italic', 'I']].map(([command, Icon, title, shortcut]) => (
@@ -104,6 +105,40 @@ export default function AccomplishmentEditor({ value, onChange, label, placehold
             format(event.key.toLowerCase() === 'b' ? 'bold' : 'italic')
           }
         }} />
+    </div>
+    {!isSubBullet && (
+      <>
+        {(value?.subItems || []).length > 0 && (
+          <ul className="ml-6 list-[circle] space-y-2 pl-4 marker:text-[#294c73]">
+            {value.subItems.map((subItem, subIndex) => (
+              <li key={subIndex}>
+                <div className="flex items-start gap-2">
+                  <AccomplishmentEditor
+                    isSubBullet
+                    value={subItem}
+                    label={`Sub-bullet ${subIndex + 1} for ${label}`}
+                    placeholder={`Sub-bullet ${subIndex + 1}`}
+                    onChange={next => onChange({
+                      runs: accomplishmentRuns(value),
+                      subItems: value.subItems.map((item, index) => index === subIndex ? next : item),
+                    })}
+                  />
+                  <button type="button" aria-label={`Remove sub-bullet ${subIndex + 1} for ${label}`}
+                    className="rounded p-1.5 text-slate-500 hover:bg-slate-100 hover:text-red-600"
+                    onClick={() => onChange({ runs: accomplishmentRuns(value), subItems: value.subItems.filter((_, index) => index !== subIndex) })}>
+                    <X size={16} />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        <button type="button" className="inline-flex items-center gap-1 text-xs font-semibold text-[#294c73] hover:text-navy-900"
+          onClick={() => onChange({ runs: accomplishmentRuns(value), subItems: [...(value?.subItems || []), ''] })}>
+          <Plus size={14} /> Add sub-bullet
+        </button>
+      </>
+    )}
     </div>
   )
 }

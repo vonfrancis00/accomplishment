@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   ArrowLeft,
   ArrowRight,
@@ -38,6 +38,13 @@ const initialProfile = {
 }
 
 export default function App() {
+  useEffect(() => {
+    // Clean up section fragments from previously bookmarked or shared links.
+    if (window.location.hash) {
+      window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
+    }
+  }, [])
+
   const [documentType, setDocumentType] = useState('home')
   const [ipcr, setIpcr] = useState(createIpcr)
   const [disbursement, setDisbursement] = useState(createDisbursement)

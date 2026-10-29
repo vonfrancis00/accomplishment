@@ -45,7 +45,7 @@ export default function ReportEntryEditor({
         </span>
         <span className="mt-2 block text-sm font-semibold text-[#19375e]">{dateLabel}</span>
         <span className="mt-1 block truncate text-xs text-slate-500">{summary.replace(/\s+/g, ' ')}</span>
-        {needsAttention && <span className="mt-2 inline-block rounded bg-amber-50 px-2 py-1 text-[10px] font-medium text-amber-800">Needs attention</span>}
+        {needsAttention && <span className="mt-2 inline-block rounded bg-amber-50 px-2 py-1 text-[10px] font-medium text-amber-800">Needs Attention</span>}
         </span>
         <span className="flex shrink-0 items-center gap-1 text-xs font-semibold text-[#294c73]">
           {expanded ? 'Close' : 'Edit'}

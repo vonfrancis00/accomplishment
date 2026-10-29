@@ -86,7 +86,7 @@ export default function ReportFormPage({
       >
         <div className="mb-6 flex items-center justify-between gap-3">
           <div>
-            <h2 className="font-bold">Small steps. Real accomplishments.</h2>
+            <h2 className="font-bold">Small Steps. Real Accomplishments.</h2>
             <p className="text-xs text-slate-500">
               Entries follow the selected period. Existing accomplishments are
               kept when you change dates. Select an entry to edit it.

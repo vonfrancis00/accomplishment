@@ -1,19 +1,38 @@
-import { Plus } from 'lucide-react'
+import { ChevronDown, Plus } from 'lucide-react'
+import { accomplishmentText } from '../utils/accomplishmentText.js'
 import FormField from './FormField.jsx'
 import AccomplishmentEditor from './AccomplishmentEditor.jsx'
 
 export default function ReportEntryEditor({
   entry,
   index,
+  expanded,
+  onToggle,
   updateEntry,
   updateItem,
   addItem,
+  removeItem,
 }) {
+  const items = entry.items.map(accomplishmentText)
+  const needsAttention = entry.kind === 'work'
+    ? !items.length || items.some(item => !item.trim())
+    : !entry.note?.trim()
+  const summary = entry.kind === 'work'
+    ? items.find(item => item.trim()) || 'Add your accomplishments for this day'
+    : entry.note || 'Add a description for this day'
+  const dateLabel = new Date(`${entry.date}T00:00:00`).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric', weekday: 'short',
+  })
+
   return (
     <div
       className={`entry-card rounded-[9px] border border-[#e0e6ed] border-l-[3px] px-3 py-[15px] sm:p-5 ${entry.kind === 'work' ? 'border-l-navy-400 bg-white' : 'border-l-navy-200 bg-slate-50'}`}
     >
-      <div className="mb-3 flex items-center justify-between">
+      <button type="button" onClick={onToggle}
+        aria-expanded={expanded} aria-controls={`entry-panel-${entry.id}`}
+        id={`entry-toggle-${entry.id}`}
+        className="flex w-full items-center justify-between gap-3 rounded text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy-500">
+        <span className="min-w-0 flex-1">
         <span className="flex items-center gap-3 text-[10px] font-bold tracking-wide text-[#65758a] uppercase">
           Entry {String(index + 1).padStart(2, '0')}{' '}
           <span className="rounded bg-navy-50 px-[7px] py-1 text-[10px] font-medium tracking-normal text-[#7c8998] normal-case">
@@ -24,7 +43,17 @@ export default function ReportEntryEditor({
                 : 'Special Day'}
           </span>
         </span>
-      </div>
+        <span className="mt-2 block text-sm font-semibold text-[#19375e]">{dateLabel}</span>
+        <span className="mt-1 block truncate text-xs text-slate-500">{summary.replace(/\s+/g, ' ')}</span>
+        {needsAttention && <span className="mt-2 inline-block rounded bg-amber-50 px-2 py-1 text-[10px] font-medium text-amber-800">Needs attention</span>}
+        </span>
+        <span className="flex shrink-0 items-center gap-1 text-xs font-semibold text-[#294c73]">
+          {expanded ? 'Close' : 'Edit'}
+          <ChevronDown size={16} className={`transition-transform ${expanded ? 'rotate-180' : ''}`} />
+        </span>
+      </button>
+
+      {expanded && <div id={`entry-panel-${entry.id}`} role="region" aria-labelledby={`entry-toggle-${entry.id}`} className="mt-4 border-t border-slate-200 pt-4">
 
       <div className="grid grid-cols-2 gap-[18px]">
         <FormField label="Date" type="date" value={entry.date} readOnly />
@@ -71,6 +100,7 @@ export default function ReportEntryEditor({
               <AccomplishmentEditor
                 label={`Accomplishment ${itemIndex + 1} for entry ${index + 1}`}
                 value={item}
+                onRemove={() => removeItem(entry.id, itemIndex)}
                 onChange={value =>
                   updateItem(entry.id, itemIndex, value)
                 }
@@ -86,6 +116,7 @@ export default function ReportEntryEditor({
           </button>
         </div>
       )}
+      </div>}
     </div>
   )
 }

@@ -1,16 +1,16 @@
-import { Layers, FileText } from 'lucide-react'
+import { FileText } from 'lucide-react'
 
 export default function AppHeader({ activePage, onNavigate }) {
   return (
     <header className="app-header print:hidden">
       <div className="header-inner">
-        <a href="#home" onClick={event => { event.preventDefault(); onNavigate('home') }} className="brand" aria-label="Accomplishment Studio home">
+        <a href="#home" onClick={event => { event.preventDefault(); onNavigate('home') }} className="brand" aria-label="OCDRA OFFICE home">
           <span className="brand-icon">
-            <Layers size={23} />
+            <img src={`${import.meta.env.BASE_URL}ched.png`} alt="CHED logo" />
           </span>
           <span>
-            Accomplishment<span className="brand-light">Studio</span>
-            <small>ACCOMPLISHMENT WORKSPACE</small>
+            OCDRA <span className="brand-light">OFFICE</span>
+            <small>WORKSPACE</small>
           </span>
         </a>
         <div className="header-divider" />

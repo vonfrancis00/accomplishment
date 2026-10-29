@@ -138,6 +138,15 @@ export default function App() {
       ),
     )
 
+  const removeItem = (id, index) =>
+    setEntries(current =>
+      current.map(entry =>
+        entry.id === id
+          ? { ...entry, items: entry.items.filter((_, itemIndex) => itemIndex !== index) }
+          : entry,
+      ),
+    )
+
   const visibleEntries = sortedEntries.filter(
     entry => includeWeekendRows || entry.kind !== 'weekend',
   )
@@ -238,6 +247,7 @@ export default function App() {
                 updateEntry={updateEntry}
                 updateItem={updateItem}
                 addItem={addItem}
+                removeItem={removeItem}
                 includeWeekendRows={includeWeekendRows}
                 setIncludeWeekendRows={setIncludeWeekendRows}
                 step={step}
@@ -248,7 +258,7 @@ export default function App() {
             >
               <ReportPreviewPage profile={profile} entries={visibleEntries} />
             </div>
-            <div className="action-bar print:hidden">
+            <div className={`action-bar print:hidden ${step === 1 ? 'accomplishments-action-bar' : ''}`}>
               <button
                 className="button secondary"
                 disabled={step === 0 || savingPdf}

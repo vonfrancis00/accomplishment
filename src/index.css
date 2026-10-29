@@ -69,7 +69,7 @@
   @apply font-[350] text-[#c7d6eb];
 }
 .brand small {
-  @apply block text-[10px] tracking-[2px] font-medium text-[#9db4d2] mt-[3px];
+  @apply block text-center text-[10px] tracking-[2px] font-medium text-[#9db4d2] mt-[3px];
 }
 .header-divider {
   @apply w-[1px] h-7 bg-[#2c4565];
@@ -293,6 +293,16 @@
 }
 .action-bar {
   @apply flex items-center justify-between gap-3 mt-5.5;
+}
+.accomplishments-action-bar {
+  position: sticky;
+  bottom: 12px;
+  z-index: 20;
+  padding: 12px;
+  border: 1px solid #dfe5ec;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 24px #122a4a14;
 }
 .button {
   @apply inline-flex items-center justify-center gap-[9px] [padding:12px_19px] rounded-[8px] text-[13px] font-semibold min-h-10.5;
@@ -726,3 +736,6 @@ button:disabled {
   color: #94a3b8;
   pointer-events: none;
 }
+
+.brand-icon { flex-shrink: 0; background: transparent; border: 0; }
+.brand-icon img { width: 100%; height: 100%; object-fit: contain; }

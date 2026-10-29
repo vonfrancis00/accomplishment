@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { FileText } from 'lucide-react'
 import FormField from '../components/FormField.jsx'
 import ReportEntryEditor from '../components/ReportEntryEditor.jsx'
@@ -9,10 +10,16 @@ export default function ReportFormPage({
   updateEntry,
   updateItem,
   addItem,
+  removeItem,
   includeWeekendRows,
   setIncludeWeekendRows,
   step,
 }) {
+  const [expandedEntryId, setExpandedEntryId] = useState(() => entries[0]?.id ?? null)
+  const activeEntryId = entries.some(entry => entry.id === expandedEntryId)
+    ? expandedEntryId
+    : expandedEntryId === null ? null : entries[0]?.id
+
   return (
     <div className="mx-auto grid gap-6">
       <section
@@ -82,7 +89,7 @@ export default function ReportFormPage({
             <h2 className="font-bold">Small steps. Real accomplishments.</h2>
             <p className="text-xs text-slate-500">
               Entries follow the selected period. Existing accomplishments are
-              kept when you change dates.
+              kept when you change dates. Select an entry to edit it.
             </p>
           </div>
         </div>
@@ -92,9 +99,12 @@ export default function ReportFormPage({
               key={entry.id}
               entry={entry}
               index={index}
+              expanded={activeEntryId === entry.id}
+              onToggle={() => setExpandedEntryId(activeEntryId === entry.id ? null : entry.id)}
               updateEntry={updateEntry}
               updateItem={updateItem}
               addItem={addItem}
+              removeItem={removeItem}
             />
           ))}
           {entries.length === 0 && (

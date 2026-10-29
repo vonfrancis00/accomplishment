@@ -20,3 +20,17 @@
 
 .dv-workspace .dv-hero .dv-draft{display:inline-flex;align-items:center;width:auto;height:auto;border-radius:20px;background:#67e8f91a;padding:4px 8px}.dv-workspace .dv-sidebar{display:block}@media(max-width:1000px){.dv-workspace .dv-sidebar{display:none}}
 
+@media screen and (prefers-reduced-motion: no-preference) {
+  .dv-toolbar,
+  .dv-editor > .section-kicker,
+  .dv-editor > section,
+  .dv-editor > .action-bar,
+  .dv-preview {
+    animation: studio-enter 450ms cubic-bezier(.22,1,.36,1) backwards;
+  }
+  .dv-editor > .section-kicker { animation-delay: 60ms; }
+  .dv-editor > section:nth-of-type(1) { animation-delay: 120ms; }
+  .dv-editor > section:nth-of-type(2) { animation-delay: 180ms; }
+  .dv-editor > .action-bar { animation-delay: 240ms; }
+}
+

@@ -1,8 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Bold, Italic, Plus, X } from 'lucide-react'
+import { Bold, Italic, Plus, Trash2, X } from 'lucide-react'
 import { accomplishmentRuns } from '../utils/accomplishmentText.js'
 
-export default function AccomplishmentEditor({ value, onChange, label, placeholder, isSubBullet = false }) {
+export default function AccomplishmentEditor({ value, onChange, onRemove, label, placeholder, isSubBullet = false }) {
   const editorRef = useRef(null)
   const savedRange = useRef(null)
   const renderedValue = useRef(null)
@@ -78,7 +78,7 @@ export default function AccomplishmentEditor({ value, onChange, label, placehold
   return (
     <div className="min-w-0 flex-1 space-y-2">
     <div className="min-w-0 flex-1 overflow-hidden rounded-[7px] border border-[#d7dfe8] bg-[#fcfdfe] focus-within:border-navy-500 focus-within:shadow-[0_0_0_3px_#122a4a18]">
-      <div role="group" aria-label={`Formatting for ${label}`} className="flex gap-1 border-b border-[#d7dfe8] bg-slate-50 px-2 py-1">
+      <div role="group" aria-label={`Formatting for ${label}`} className="flex items-center gap-1 border-b border-[#d7dfe8] bg-slate-50 px-2 py-1">
         {[['bold', Bold, 'Bold', 'B'], ['italic', Italic, 'Italic', 'I']].map(([command, Icon, title, shortcut]) => (
           <button key={command} type="button" title={`${title} (Ctrl+${shortcut})`} aria-label={title} aria-pressed={active[command]}
             onPointerDown={event => {
@@ -90,6 +90,13 @@ export default function AccomplishmentEditor({ value, onChange, label, placehold
             <Icon size={16} />
           </button>
         ))}
+        {onRemove && (
+          <button type="button" onClick={onRemove}
+            aria-label={`Remove ${label.toLowerCase()}`} title="Remove accomplishment"
+            className="ml-auto inline-flex min-h-8 items-center gap-1.5 rounded-md px-2 text-xs font-medium text-slate-500 transition-colors hover:bg-rose-50 hover:text-rose-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500">
+            <Trash2 size={14} /> <span>Remove</span>
+          </button>
+        )}
       </div>
       <div ref={editorRef} contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label={label}
         data-placeholder={placeholder} className="accomplishment-editor min-h-[84px] resize-y overflow-auto whitespace-pre-wrap break-words px-3 py-[11px] text-[13px] leading-normal text-[#29394e] outline-none"

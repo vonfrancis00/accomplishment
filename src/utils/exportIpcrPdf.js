@@ -1,4 +1,6 @@
-﻿export async function exportIpcrPdf(data) {
+import { pdfCaptureOptions } from './pdfCapture.js'
+
+export async function exportIpcrPdf(data) {
   const [{ toPng }, { jsPDF }] = await Promise.all([import('html-to-image'), import('jspdf')])
   await document.fonts.ready
   await Promise.all([...document.querySelectorAll('.ipcr-pages img')].map(image => image.decode()))
@@ -8,8 +10,7 @@
   const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4', compress: true })
   pdf.setProperties({ title: 'Individual Performance Commitment and Review', author: data.name })
   for (const [index, page] of pages.entries()) {
-    // CSS uses 96 DPI; 6.25x captures at 600 DPI. PNG stays lossless.
-    const image = await toPng(page, { pixelRatio: 600 / 96, backgroundColor: '#ffffff', style: { margin: '0', boxShadow: 'none' } })
+    const image = await toPng(page, pdfCaptureOptions(true))
     if (index) pdf.addPage('a4', 'landscape')
     pdf.addImage(image, 'PNG', 0, 0, 297, 210, undefined, 'FAST')
   }

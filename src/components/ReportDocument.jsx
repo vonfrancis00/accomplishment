@@ -1,7 +1,10 @@
 import { useLayoutEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { formatReportDate } from '../utils/reportUtils.js'
-import { accomplishmentRuns, accomplishmentText } from '../utils/accomplishmentText.js'
+import {
+  accomplishmentRuns,
+  accomplishmentText,
+} from '../utils/accomplishmentText.js'
 
 // The fixed contact footer is embedded in every report.
 const reportDefaults = {
@@ -73,17 +76,45 @@ function ReportContent({ profile, entries }) {
                           className="mb-px whitespace-pre-wrap pl-px leading-[1.23] print:break-inside-avoid"
                         >
                           {accomplishmentRuns(item).map((run, runIndex) => (
-                            <span key={runIndex} style={{ fontWeight: run.bold ? 'bold' : 'normal', fontStyle: run.italic ? 'italic' : 'normal' }}>{run.text}</span>
+                            <span
+                              key={runIndex}
+                              style={{
+                                fontWeight: run.bold ? 'bold' : 'normal',
+                                fontStyle: run.italic ? 'italic' : 'normal',
+                              }}
+                            >
+                              {run.text}
+                            </span>
                           ))}
-                          {(item?.subItems || []).some(subItem => accomplishmentText(subItem).trim()) && (
+                          {(item?.subItems || []).some(subItem =>
+                            accomplishmentText(subItem).trim(),
+                          ) && (
                             <ul className="m-0 list-[circle] pl-[24px]">
-                              {item.subItems.filter(subItem => accomplishmentText(subItem).trim()).map((subItem, subIndex) => (
-                                <li key={subIndex} className="mb-px pl-px">
-                                  {accomplishmentRuns(subItem).map((run, runIndex) => (
-                                    <span key={runIndex} style={{ fontWeight: run.bold ? 'bold' : 'normal', fontStyle: run.italic ? 'italic' : 'normal' }}>{run.text}</span>
-                                  ))}
-                                </li>
-                              ))}
+                              {item.subItems
+                                .filter(subItem =>
+                                  accomplishmentText(subItem).trim(),
+                                )
+                                .map((subItem, subIndex) => (
+                                  <li key={subIndex} className="mb-px pl-px">
+                                    {accomplishmentRuns(subItem).map(
+                                      (run, runIndex) => (
+                                        <span
+                                          key={runIndex}
+                                          style={{
+                                            fontWeight: run.bold
+                                              ? 'bold'
+                                              : 'normal',
+                                            fontStyle: run.italic
+                                              ? 'italic'
+                                              : 'normal',
+                                          }}
+                                        >
+                                          {run.text}
+                                        </span>
+                                      ),
+                                    )}
+                                  </li>
+                                ))}
                             </ul>
                           )}
                         </li>
@@ -210,9 +241,14 @@ export default function ReportDocument({ profile, entries }) {
           // Clone a text range so bold/italic spans survive page splits.
           const fillCell = (start, count) => {
             const startOffset = words[start].index
-            const endOffset = words[start + count - 1].index + words[start + count - 1][0].length
+            const endOffset =
+              words[start + count - 1].index +
+              words[start + count - 1][0].length
             const fragment = originalCell.cloneNode(true)
-            const walker = document.createTreeWalker(fragment, NodeFilter.SHOW_TEXT)
+            const walker = document.createTreeWalker(
+              fragment,
+              NodeFilter.SHOW_TEXT,
+            )
             let position = 0
             while (walker.nextNode()) {
               const node = walker.currentNode

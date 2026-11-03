@@ -15,11 +15,17 @@ import {
 import AppHeader from './components/AppHeader.jsx'
 import LandingPage from './pages/LandingPage.jsx'
 import IpcrPage from './pages/IpcrPage.jsx'
-import DisbursementPage, { createDisbursement } from './pages/DisbursementPage.jsx'
+import DisbursementPage, {
+  createDisbursement,
+} from './pages/DisbursementPage.jsx'
 import { createIpcr } from './utils/ipcrUtils.js'
 import ReportFormPage from './pages/ReportFormPage.jsx'
 import ReportPreviewPage from './pages/ReportPreviewPage.jsx'
-import { createSampleEntries, entriesForPeriod, getReportingPeriod } from './utils/reportUtils.js'
+import {
+  createSampleEntries,
+  entriesForPeriod,
+  getReportingPeriod,
+} from './utils/reportUtils.js'
 import { exportReportPdf } from './utils/exportPdf.js'
 import { accomplishmentText } from './utils/accomplishmentText.js'
 
@@ -41,7 +47,11 @@ export default function App() {
   useEffect(() => {
     // Clean up section fragments from previously bookmarked or shared links.
     if (window.location.hash) {
-      window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
+      window.history.replaceState(
+        window.history.state,
+        '',
+        window.location.pathname + window.location.search,
+      )
     }
   }, [])
 
@@ -149,7 +159,10 @@ export default function App() {
     setEntries(current =>
       current.map(entry =>
         entry.id === id
-          ? { ...entry, items: entry.items.filter((_, itemIndex) => itemIndex !== index) }
+          ? {
+              ...entry,
+              items: entry.items.filter((_, itemIndex) => itemIndex !== index),
+            }
           : entry,
       ),
     )
@@ -184,9 +197,15 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      {documentType === 'home' ? <LandingPage onNavigate={setDocumentType} /> : <AppHeader activePage={documentType} onNavigate={setDocumentType} />}
+      {documentType === 'home' ? (
+        <LandingPage onNavigate={setDocumentType} />
+      ) : (
+        <AppHeader activePage={documentType} onNavigate={setDocumentType} />
+      )}
       {documentType === 'ipcr' && <IpcrPage data={ipcr} setData={setIpcr} />}
-      {documentType === 'disbursement' && <DisbursementPage data={disbursement} setData={setDisbursement} />}
+      {documentType === 'disbursement' && (
+        <DisbursementPage data={disbursement} setData={setDisbursement} />
+      )}
       <main className="workspace" hidden={documentType !== 'accomplishment'}>
         <nav aria-label="Report progress" className="stepper print:hidden">
           <div className="progress-caption">
@@ -265,7 +284,9 @@ export default function App() {
             >
               <ReportPreviewPage profile={profile} entries={visibleEntries} />
             </div>
-            <div className={`action-bar print:hidden ${step === 1 ? 'accomplishments-action-bar' : ''}`}>
+            <div
+              className={`action-bar print:hidden ${step === 1 ? 'accomplishments-action-bar' : ''}`}
+            >
               <button
                 className="button secondary"
                 disabled={step === 0 || savingPdf}

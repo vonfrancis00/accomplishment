@@ -1,3 +1,5 @@
+import { pdfCaptureOptions } from './pdfCapture.js'
+
 // Export the already-paginated preview so the PDF uses the same A4 page breaks.
 export async function exportReportPdf(profile) {
   const [{ toPng }, { jsPDF }] = await Promise.all([
@@ -14,12 +16,7 @@ export async function exportReportPdf(profile) {
   const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true })
   pdf.setProperties({ title: 'Accomplishment Report', author: profile.name })
   for (const [index, page] of pages.entries()) {
-    const image = await toPng(page, {
-      // CSS uses 96 DPI; 6.25x captures at 600 DPI. PNG stays lossless.
-      pixelRatio: 600 / 96,
-      backgroundColor: '#ffffff',
-      style: { margin: '0', boxShadow: 'none' },
-    })
+    const image = await toPng(page, pdfCaptureOptions())
     if (index > 0) pdf.addPage('a4', 'portrait')
     pdf.addImage(image, 'PNG', 0, 0, 210, 297, undefined, 'FAST')
   }

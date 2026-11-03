@@ -15,10 +15,14 @@ export default function ReportFormPage({
   setIncludeWeekendRows,
   step,
 }) {
-  const [expandedEntryId, setExpandedEntryId] = useState(() => entries[0]?.id ?? null)
+  const [expandedEntryId, setExpandedEntryId] = useState(
+    () => entries[0]?.id ?? null,
+  )
   const activeEntryId = entries.some(entry => entry.id === expandedEntryId)
     ? expandedEntryId
-    : expandedEntryId === null ? null : entries[0]?.id
+    : expandedEntryId === null
+      ? null
+      : entries[0]?.id
 
   return (
     <div className="mx-auto grid gap-6">
@@ -100,7 +104,9 @@ export default function ReportFormPage({
               entry={entry}
               index={index}
               expanded={activeEntryId === entry.id}
-              onToggle={() => setExpandedEntryId(activeEntryId === entry.id ? null : entry.id)}
+              onToggle={() =>
+                setExpandedEntryId(activeEntryId === entry.id ? null : entry.id)
+              }
               updateEntry={updateEntry}
               updateItem={updateItem}
               addItem={addItem}

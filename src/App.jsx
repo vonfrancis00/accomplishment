@@ -39,7 +39,7 @@ const initialProfile = {
   headerLine2: 'OFFICE OF THE PRESIDENT',
   preparedBy: 'VON FRANCIS A. LA VICTORIA',
   preparedPosition: 'Project Technical Staff II',
-  approvedBy: 'DESIDERIO R. APAG III, PCpE, D.Eng., ASEAN Eng.',
+  approvedBy: 'DESIDERIO R. APAG III, PCpE, D.Eng., ASEAN Eng., IntPE',
   approvedPosition: 'Commissioner',
 }
 

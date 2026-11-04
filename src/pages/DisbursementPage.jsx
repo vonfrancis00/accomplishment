@@ -38,7 +38,7 @@ export const createDisbursement = () => ({
   responsibility: '',
   pap: '',
   amount: '',
-  supervisor: 'DESIDERIO R. APAG III, PCpE, D.ENG., ASEAN Eng.',
+  supervisor: 'DESIDERIO R. APAG III, PCpE, D.ENG., ASEAN Eng., IntPE',
   supervisorPosition: 'Commissioner',
   accountant: 'MARIA PAZ D. GALANG-BUSTOS',
   accountantPosition: 'Chief Accountant, AFMS',
